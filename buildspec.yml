@@ -17,7 +17,6 @@ phases:
   pre_build:
     commands:
       - echo "Setting BASE URL for Cypress..."
-      - echo "Base URL:" $CYPRESS_BASE_URL
       - if [ -z "$CYPRESS_BASE_URL" ]; then echo "ERROR: CYPRESS_BASE_URL is not set"; exit 1; fi
 
   build:
