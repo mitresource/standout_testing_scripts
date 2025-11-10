@@ -6,10 +6,12 @@ phases:
       - echo "Installing dependencies..."
       - npm ci
       - npx cypress verify
+
   pre_build:
     commands:
       - echo "Setting BASE URL for Cypress..."
       - echo "Base URL: $CYPRESS_BASE_URL"
+
   build:
     commands:
       - echo "Running Cypress tests..."
