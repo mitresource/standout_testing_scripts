@@ -19,7 +19,7 @@ phases:
 
 artifacts:
   files:
-    - cypress/videos/**/* 
-    - cypress/screenshots/**/* 
+    - cypress/videos/**/*
+    - cypress/screenshots/**/*
     - cypress/results/**/*
   discard-paths: no
