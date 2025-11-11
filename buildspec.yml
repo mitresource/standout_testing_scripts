@@ -10,7 +10,7 @@ phases:
   pre_build:
     commands:
       - echo "Setting BASE URL for Cypress..."
-      - echo "Base URL: $CYPRESS_BASE_URL"
+      - echo "Base URL:$CYPRESS_BASE_URL"
   build:
     commands:
       - echo "Running Cypress tests..."
