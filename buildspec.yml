@@ -13,8 +13,11 @@ phases:
       - echo "Base URL:$CYPRESS_BASE_URL"
   build:
     commands:
+      - mkdir -p cypress/videos cypress/screenshots cypress/results
       - echo "Running Cypress tests..."
       - npx cypress run --browser chrome --config baseUrl=$CYPRESS_BASE_URL
+      - echo "Listing files for debugging"
+      - find cypress -type f || true
 artifacts:
   files:
     - cypress/videos/**/*
