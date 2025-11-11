@@ -2,7 +2,20 @@ version: 0.2
 phases:
   install:
     commands:
-      - npm install
+      - echo "Installing dependencies..."
+      - npm ci
+      - npx cypress verify
+  pre_build:
+    commands:
+      - echo "Setting BASE URL for Cypress..."
+      - echo "Base URL: $CYPRESS_BASE_URL"
   build:
     commands:
-      - npx cypress run --browser electron
+      - echo "Running Cypress tests..."
+      - npx cypress run --browser chrome --config baseUrl=$CYPRESS_BASE_URL
+artifacts:
+  files:
+    - cypress/videos/**/*
+    - cypress/screenshots/**/*
+    - cypress/results/**/*
+  discard-paths: no
