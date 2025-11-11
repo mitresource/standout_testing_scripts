@@ -1,16 +1,16 @@
 version: 0.2
 phases:
   install:
+    runtime-versions:
+      nodejs: 20
     commands:
-      - echo "Fixing npm version for Node.js 18..."
-      - npm install -g npm@10
       - echo "Installing dependencies..."
       - npm ci
       - npx cypress verify
   pre_build:
     commands:
       - echo "Setting BASE URL for Cypress..."
-      - echo "Base URL:$CYPRESS_BASE_URL"
+      - echo "Base URL: $CYPRESS_BASE_URL"
   build:
     commands:
       - echo "Running Cypress tests..."
