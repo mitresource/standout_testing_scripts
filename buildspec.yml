@@ -1,4 +1,5 @@
 version: 0.2
+
 phases:
   install:
     runtime-versions:
@@ -7,20 +8,27 @@ phases:
       - echo "Installing dependencies..."
       - npm ci
       - npx cypress verify
+
   pre_build:
     commands:
       - echo "Setting BASE URL for Cypress..."
       - echo "Base URL:$CYPRESS_BASE_URL"
+
   build:
     commands:
+      - echo "Preparing Cypress folders..."
       - mkdir -p cypress/videos cypress/screenshots cypress/results
       - echo "Running Cypress tests..."
       - npx cypress run --browser chrome --config baseUrl=$CYPRESS_BASE_URL
       - echo "Listing files for debugging"
       - find cypress -type f || true
+      - echo "Collecting all artifacts into a single folder..."
+      - mkdir -p cypress_artifacts
+      - cp -r cypress/videos cypress_artifacts/
+      - cp -r cypress/screenshots cypress_artifacts/
+      - cp -r cypress/results cypress_artifacts/
+
 artifacts:
   files:
-    - cypress/videos/**/*
-    - cypress/screenshots/**/*
-    - cypress/results/**/*
+    - cypress_artifacts/**/*
   discard-paths: no
