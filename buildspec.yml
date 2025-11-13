@@ -13,7 +13,9 @@ phases:
     commands:
       - echo "Setting BASE URL for Cypress..."
       - echo "Base URL:$CYPRESS_BASE_URL"
-
+      - export XDG_RUNTIME_DIR=/tmp/runtime-$UID
+      - mkdir -p $XDG_RUNTIME_DIR
+      - chmod 700 $XDG_RUNTIME_DIR
   build:
     commands:
       - echo "Preparing Cypress folders..."
