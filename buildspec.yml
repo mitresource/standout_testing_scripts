@@ -24,9 +24,12 @@ phases:
       - find cypress -type f || true
       - echo "Collecting all artifacts into a single folder..."
       - mkdir -p cypress_artifacts
+      - touch cypress_artifacts/placeholder.txt
       - cp -r cypress/videos cypress_artifacts/
       - cp -r cypress/screenshots cypress_artifacts/
       - cp -r cypress/results cypress_artifacts/
+      - echo "DEBUG artifacts folder contents:"
+      - ls -lR cypress_artifacts
 
 artifacts:
   files:
