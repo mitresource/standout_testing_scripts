@@ -41,7 +41,7 @@ version: 0.2
 
 env:
   variables:
-    REPORT_BUCKET: "mitwebsiteartifacts"
+    REPORT_BUCKET: $REPORT_BUCKET
 
 phases:
   install:
