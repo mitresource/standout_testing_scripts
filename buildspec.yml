@@ -16,7 +16,7 @@ phases:
   pre_build:
     commands:
       - echo "Setting BASE URL for Cypress..."
-      - echo Base URL: $CYPRESS_BASE_URL
+      - echo "Base URL": $CYPRESS_BASE_URL
       - export XDG_RUNTIME_DIR=/tmp/runtime-$UID
       - mkdir -p $XDG_RUNTIME_DIR
       - chmod 700 $XDG_RUNTIME_DIR
@@ -44,7 +44,7 @@ phases:
       - export ZIP_NAME="report-$(date +%Y-%m-%d_%H-%M-%S).zip"
       - zip -r $ZIP_NAME cypress_artifacts/*
       - aws s3 cp $ZIP_NAME s3://$REPORT_BUCKET/
-      - echo "Upload complete: $ZIP_NAME"
+      - echo "Upload complete": $ZIP_NAME
 
 artifacts:
   files:
