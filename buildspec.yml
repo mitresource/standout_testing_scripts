@@ -43,6 +43,5 @@ phases:
 artifacts:
   files:
     - cypress_artifacts/**/*
-  discard-paths: no
 
 
