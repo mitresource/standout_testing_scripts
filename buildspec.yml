@@ -1,4 +1,47 @@
+# version: 0.2
+
+# phases:
+#   install:
+#     runtime-versions:
+#       nodejs: 20
+#     commands:
+#       - echo "Installing dependencies..."
+#       - npm ci
+#       - npx cypress verify
+
+#   pre_build:
+#     commands:
+#       - echo "Setting BASE URL for Cypress..."
+#       - echo "Base URL:$CYPRESS_BASE_URL"
+#       - export XDG_RUNTIME_DIR=/tmp/runtime-$UID
+#       - mkdir -p $XDG_RUNTIME_DIR
+#       - chmod 700 $XDG_RUNTIME_DIR
+#   build:
+#     commands:
+#       - echo "Preparing Cypress folders..."
+#       - mkdir -p cypress/videos cypress/screenshots cypress/results
+#       - echo "Running Cypress tests..."
+#       - npx cypress run --browser chrome --config baseUrl=$CYPRESS_BASE_URL
+#       - echo "Listing files for debugging"
+#       - find cypress -type f || true
+#       - echo "Collecting all artifacts into a single folder..."
+#       - mkdir -p cypress_artifacts
+#       - touch cypress_artifacts/placeholder.txt
+#       - cp -r cypress/videos cypress_artifacts/
+#       - cp -r cypress/screenshots cypress_artifacts/
+#       - cp -r cypress/results cypress_artifacts/
+#       - echo "DEBUG artifacts folder contents:"
+#       - ls -lR cypress_artifacts
+
+# artifacts:
+#   files:
+#     - cypress_artifacts/**/*
+#   discard-paths: no
 version: 0.2
+
+env:
+  variables:
+    REPORT_BUCKET: "mitwebsiteartifacts"
 
 phases:
   install:
@@ -16,6 +59,7 @@ phases:
       - export XDG_RUNTIME_DIR=/tmp/runtime-$UID
       - mkdir -p $XDG_RUNTIME_DIR
       - chmod 700 $XDG_RUNTIME_DIR
+
   build:
     commands:
       - echo "Preparing Cypress folders..."
@@ -33,7 +77,16 @@ phases:
       - echo "DEBUG artifacts folder contents:"
       - ls -lR cypress_artifacts
 
+  post_build:
+    commands:
+      - echo "Uploading test report artifacts to S3 bucket..."
+      - ZIP_NAME="report-$(date +%Y-%m-%d_%H-%M-%S).zip"
+      - zip -r $ZIP_NAME cypress_artifacts/*
+      - aws s3 cp $ZIP_NAME s3://$REPORT_BUCKET/
+      - echo "Upload complete: $ZIP_NAME"
+
 artifacts:
   files:
     - cypress_artifacts/**/*
   discard-paths: no
+
